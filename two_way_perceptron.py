@@ -63,8 +63,8 @@ if __name__ == "__main__":
     two_way_perceptron = TwoWayPerceptron()
 
     # Linearly seperable dataset
-    training_data = [[0, 0], [0, 1], [1, 0], [1, 1]]
-    labels = [1, 1, 1, 0]
+    training_data = [[0, 0], [0, 1], [1, 0], [1, 1], [1, 2], [2, 2]]
+    labels = [1, 1, 1, 0, 0, 0]
 
     two_way_perceptron.train(training_data, labels, epochs = 50, learning_rate = 0.1)
 

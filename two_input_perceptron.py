@@ -2,7 +2,7 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 
-class TwoWayPerceptron:
+class TwoInputPerceptron:
     def __init__(self):
         self.weights = [random.uniform(-1, 1), random.uniform(-1, 1)]
         self.bias = random.uniform(-1, 1)
@@ -60,14 +60,14 @@ class TwoWayPerceptron:
 
 if __name__ == "__main__":
 
-    two_way_perceptron = TwoWayPerceptron()
+    two_input_perceptron = TwoInputPerceptron()
 
     # Linearly seperable dataset
     training_data = [[0, 0], [0, 1], [1, 0], [1, 1], [1, 2], [2, 2]]
     labels = [1, 1, 1, 0, 0, 0]
 
-    two_way_perceptron.train(training_data, labels, epochs = 50, learning_rate = 0.1)
+    two_input_perceptron.train(training_data, labels, epochs = 50, learning_rate = 0.1)
 
     # Test classification
     for inputs in training_data:
-        print(f"Input: {inputs}, Predicted: {two_way_perceptron.classify(inputs)}")
+        print(f"Input: {inputs}, Predicted: {two_input_perceptron.classify(inputs)}")

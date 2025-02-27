@@ -1,6 +1,7 @@
 import random
 import numpy as np
 import matplotlib.pyplot as plt
+import training_data_generator
 
 class TwoInputPerceptron:
     def __init__(self):
@@ -16,16 +17,24 @@ class TwoInputPerceptron:
         return 1 if weighted_sum >= 0 else 0
 
     def train(self, training_data, labels, epochs, learning_rate):
-        for _ in range(epochs):
+        for epoch in range(epochs):
+            weight_changed = False
             for inputs, label in zip(training_data, labels):
                 classification = self.classify(inputs)
                 # Calculate loss
                 loss = label - classification
                 # Update weights
                 for i in range(len(self.weights)):
-                    self.weights[i] += learning_rate * loss * inputs[i]
+                    new_weight = self.weights[i] + learning_rate * loss * inputs[i]
+                    if self.weights[i] != new_weight:
+                        weight_changed = True
+                    self.weights[i] = new_weight
                 # Update bias
                 self.bias += learning_rate * loss
+            # If no weight was updated during this epoch, stop the training
+            if not weight_changed:
+                print(f"Training stopped at epoch {epoch + 1} due to no changes in weights.")
+                break
         self.visualise_classification(training_data, labels)
 
     def visualise_classification(self, training_data, labels):
@@ -39,7 +48,7 @@ class TwoInputPerceptron:
         # Plot classification line before training
         x1 = np.linspace(-5, 5, 100)
         x2 = (-(x1 * self.original_weights[0]) - self.original_bias) / (self.original_weights[1])
-        axis.plot(x1, x2, 'r--', label='Classification Line Before Training')
+        axis.plot(x1, x2, 'y--', label='Classification Line Before Training')
 
         # Plot classification line after training
         x2 = (-(x1 * self.weights[0]) - self.bias) / (self.weights[1])
@@ -59,15 +68,9 @@ class TwoInputPerceptron:
         plt.show()
 
 if __name__ == "__main__":
-
     two_input_perceptron = TwoInputPerceptron()
 
     # Linearly seperable dataset
-    training_data = [[0, 0], [0, 1], [1, 0], [1, 1], [1, 2], [2, 2]]
-    labels = [1, 1, 1, 0, 0, 0]
+    training_data, labels = training_data_generator.generate_training_data(num_datapoints=50, num_inputs=2)
 
-    two_input_perceptron.train(training_data, labels, epochs = 50, learning_rate = 0.1)
-
-    # Test classification
-    for inputs in training_data:
-        print(f"Input: {inputs}, Predicted: {two_input_perceptron.classify(inputs)}")
+    two_input_perceptron.train(training_data, labels, epochs = 500, learning_rate = 0.1)

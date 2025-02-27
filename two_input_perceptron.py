@@ -13,8 +13,8 @@ class TwoInputPerceptron:
         self.original_bias = self.bias
 
     def classify(self, inputs):
-        weighted_sum = np.dot(inputs, self.weights) + self.bias
-        return 1 if weighted_sum >= 0 else 0
+        weighted_sum = np.dot(inputs, self.weights) 
+        return 1 if weighted_sum + self.bias >= 0 else 0
 
     def train(self, training_data, labels, epochs, learning_rate):
         for epoch in range(epochs):

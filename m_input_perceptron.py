@@ -8,8 +8,8 @@ class MInputPerceptron:
         self.bias = np.random.uniform(-1, 1)
 
     def classify(self, inputs):
-        weighted_sum = np.dot(inputs, self.weights) + self.bias
-        return 1 if weighted_sum >= 0 else 0
+        weighted_sum = np.dot(inputs, self.weights)
+        return 1 if weighted_sum + self.bias >= 0 else 0
 
     def train(self, training_data, labels, epochs, learning_rate):
         print(f"Initial weights: {self.weights}, Initial bias: {self.bias}")
